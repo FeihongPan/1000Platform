@@ -12,6 +12,11 @@ CONFIG(debug,debug|release){
     TARGET = TCommonLib
 }
 
+CONFIG += skip_target_version_ext
+VERSION = 1.0.0
+QMAKE_TARGET_PRODUCT = "iStar TCommonLib Library"
+QMAKE_TARGET_DESCRIPTION = "ThirdParty Basic Function Module"
+
 DEFINES += QS_HAS_JSON
 DEFINES += QS_HAS_XML
 

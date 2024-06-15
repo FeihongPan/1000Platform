@@ -36,6 +36,7 @@ void KeyVerifySubscriber::decoding(const QString &topic, const QByteArray &messa
         {
             QByteArray result;
             result = KeyVerifier::getInstance()->GetLicenseExpirationDate();
+            emit sig_LicenseExpirationDate(task_Recived.context);
             KeyVerifier::getInstance()->Publish(EnumConverter::ConvertToString(cmd), true, result);
         }
         break;
@@ -45,6 +46,7 @@ void KeyVerifySubscriber::decoding(const QString &topic, const QByteArray &messa
             bool r = false;
             QByteArray result;
             result = KeyVerifier::getInstance()->GetLicenseState(r);
+            emit sig_LicenseState(task_Recived.context.toUShort());
             KeyVerifier::getInstance()->Publish(EnumConverter::ConvertToString(cmd), true, result);
         }
         break;

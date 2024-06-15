@@ -1,4 +1,4 @@
-QT       += gui
+QT       -= gui
 QT       += network xml serialport printsupport
 
 TEMPLATE = lib
@@ -11,6 +11,11 @@ CONFIG(debug,debug|release){
 } else {
     TARGET = CommonLib
 }
+
+CONFIG += skip_target_version_ext
+VERSION = 1.0.0
+QMAKE_TARGET_PRODUCT = "iStar CommonLib Library"
+QMAKE_TARGET_DESCRIPTION = "Basic Function Module"
 
 DEFINES += QS_HAS_JSON
 DEFINES += QS_HAS_XML

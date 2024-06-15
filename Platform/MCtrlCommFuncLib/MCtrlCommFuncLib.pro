@@ -1,10 +1,21 @@
 QT       -= gui
 QT       += network xml serialport printsupport
 
-TARGET = Platform
+TEMPLATE = lib
+DEFINES += MCTRLCOMMFUNCLIB_LIBRARY
 
-CONFIG += c++11 console
-CONFIG -= app_bundle
+CONFIG += c++11
+
+CONFIG(debug,debug|release){
+    TARGET = MCtrlCommFuncLibd
+} else {
+    TARGET = MCtrlCommFuncLib
+}
+
+CONFIG += skip_target_version_ext
+VERSION = 1.0.0
+QMAKE_TARGET_PRODUCT = "iStar MCtrlCommFuncLib Library"
+QMAKE_TARGET_DESCRIPTION = "MCtrl Common Software Function Module"
 
 DEFINES += QS_HAS_JSON
 DEFINES += QS_HAS_XML
@@ -12,19 +23,28 @@ DEFINES += QS_HAS_XML
 QMAKE_CXXFLAGS_EXCEPTIONS_ON = /EHa
 QMAKE_CXXFLAGS_STL_ON = /EHa
 
+include($$PWD/AppConfig/AppConfig.pri)
+
 include($$PWD/../ThirdParties/ThirdParties.pri)
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-        main.cpp
+HEADERS += \
+    MCtrlCommFuncLib_global.h
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+unix {
+    target.path = /usr/lib
+}
 !isEmpty(target.path): INSTALLS += target
+
+CONFIG(debug,debug|release){
+    DLLDESTDIR = $$OUT_PWD/../MainProject/debug
+} else {
+    DLLDESTDIR = $$OUT_PWD/../MainProject/release
+}
 
 # CommonLib
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../CommonLib/release/ -lCommonLib
@@ -41,11 +61,3 @@ else:unix: LIBS += -L$$OUT_PWD/../TCommonLib/ -lTCommonLib
 
 INCLUDEPATH += $$PWD/../TCommonLib
 DEPENDPATH += $$PWD/../TCommonLib
-
-# MCtrlCommFuncLib
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../MCtrlCommFuncLib/release/ -lMCtrlCommFuncLib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../MCtrlCommFuncLib/debug/ -lMCtrlCommFuncLibd
-else:unix: LIBS += -L$$OUT_PWD/../MCtrlCommFuncLib/ -lMCtrlCommFuncLib
-
-INCLUDEPATH += $$PWD/../MCtrlCommFuncLib
-DEPENDPATH += $$PWD/../MCtrlCommFuncLib

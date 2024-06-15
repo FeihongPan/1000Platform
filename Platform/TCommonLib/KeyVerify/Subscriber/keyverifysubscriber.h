@@ -13,6 +13,11 @@ public:
     explicit KeyVerifySubscriber(QString name, QObject *parent = nullptr);
     static KeyVerifySubscriber *getInstance();
 
+signals:
+    void sig_CreateSuourceFileResult(bool r);
+    void sig_LicenseExpirationDate(QString date);
+    void sig_LicenseState(bool actived);
+
 private:
     virtual void decoding(const QString &topic, const QByteArray &message) override;
 
